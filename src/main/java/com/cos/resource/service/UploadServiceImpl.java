@@ -5,6 +5,9 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.UUID;
@@ -37,25 +40,41 @@ public class UploadServiceImpl implements UploadService {
 	@Override
 	public String save(String tags, MultipartFile file) throws FileNotFoundException, IOException {
 		// save file to disk
-		File targetFile = createFile(file.getOriginalFilename());
-		StreamUtils.copy(file.getInputStream(), new FileOutputStream(targetFile));
+		String originName = file.getOriginalFilename();
+		String contentType = file.getContentType();
+		InputStream inputStream = file.getInputStream();
+		return saveResource(tags, originName, inputStream, contentType);
 
+	}
+
+	@Override
+	public String saveUrlImage(String tags, String url, String contentType)
+			throws MalformedURLException, FileNotFoundException, IOException {
+
+		int index = url.lastIndexOf('/');
+		String originName = index > 0 ? url.substring(index) : url;
+		InputStream inputStream = new URL(url).openStream();
+		return saveResource(tags, originName, inputStream, contentType);
+	}
+
+	private String saveResource(String tags, String originName, InputStream inputStream, String contentType)
+			throws IOException, FileNotFoundException {
+		File targetFile = createFile(originName);
+		StreamUtils.copy(inputStream, new FileOutputStream(targetFile));
+		
 		String md5code = DigestUtils.md5DigestAsHex(new FileInputStream(targetFile));
-
 		Resource resource = resourceRepository.findByMd5code(md5code);
 		if (resource != null) {
 			// file exists.
 			targetFile.delete();
 			return resource.getId();
 		} else {
-
 			// save information to database
-			resource = new Resource(file.getOriginalFilename(), tags, file.getContentType());
+			resource = new Resource(originName, tags, contentType);
 			resource.setMd5code(md5code);
-			resource.setPath(targetFile.getAbsolutePath());
+			resource.setPath(targetFile.getAbsolutePath().replace(root, ""));
 			return resourceRepository.save(resource).getId();
 		}
-
 	}
 
 	private File createFile(String originName) {

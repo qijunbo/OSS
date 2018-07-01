@@ -42,6 +42,7 @@ public class Resource {
 		this.name = name;
 		this.tags = tags;
 		this.mimeType = mimeType;
+		this.uploadTime = new Date();
 	}
 
 
