@@ -1,0 +1,11 @@
+server:    
+    port: 80
+    session:
+        timeout: 1800
+spring:
+  profiles:
+    active: dev  # prod  and dev;
+storage:
+  root: D:\temp\
+
+     
