@@ -18,13 +18,13 @@ package com.example.jpa;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.util.List;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.cos.customer.repository.Customer;
@@ -40,12 +40,11 @@ public class CustomerRepositoryTests {
     private CustomerRepository customers;
 
     @Test
-    public void testFindByLastName() {
-        Customer customer = new Customer("first", "last", "tony@cn.bim.com", null);
+    public void testFindByName() {
+        Customer customer = new Customer("first last", "tony@cn.bim.com", null);
         entityManager.persist(customer);
 
-        List<Customer> findByLastName = customers.findByLastName(customer.getLastName());
-
-        assertThat(findByLastName).extracting(Customer::getLastName).containsOnly(customer.getLastName());
+        Page<Customer> findByLastName = customers.findByName(customer.getName(), new PageRequest(0, 10));
+        assertThat(findByLastName.getContent()).extracting(Customer::getName).containsOnly(customer.getName());
     }
 }

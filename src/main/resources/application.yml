@@ -4,7 +4,7 @@ server:
         timeout: 1800
 spring:
   profiles:
-    active: dev  # prod  and dev;
+    active: prod  # prod  and dev;
 storage:
   root: D:\temp\
 

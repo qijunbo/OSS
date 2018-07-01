@@ -35,13 +35,15 @@ public class Application extends SpringBootServletInitializer implements Command
 	public void run(String... strings) throws Exception {
 
 		// save a couple of customers
-		repository.save(new Customer("Jack", "Bauer", "Jack@builder.com", new Date()));
-		repository.save(new Customer("Chloe", "O'Brian", "Chloe@builder.com", new Date()));
-		repository.save(new Customer("Kim", "Bauer", "Kim@builder.com", new Date()));
-		repository.save(new Customer("David", "Palmer", "David@builder.com", new Date()));
-		repository.save(new Customer("Michelle", "Dessler", "Michelle@builder.com", new Date()));
-		repository.save(new Customer("Tony", "Qi", "qijunbo@builder.com", new Date()));
-		repository.save(new Customer("Jone", "Fathe", "jone@builder.com", new Date()));
+		Date today = new Date();
+		
+		repository.save(new Customer("Jack Bauer", "Jack@builder.com", today));
+		repository.save(new Customer("Chloe O'Brian", "Chloe@builder.com", today));
+		repository.save(new Customer("Kim Bauer", "Kim@builder.com", today));
+		repository.save(new Customer("David Palmer", "David@builder.com", today));
+		repository.save(new Customer("Michelle Dessler", "Michelle@builder.com", today));
+		repository.save(new Customer("Tony Qi", "qijunbo@builder.com", today));
+		repository.save(new Customer("Jone Fathe", "jone@builder.com", today));
 		// fetch all customers
 		log.info("Customers found with findAll():");
 		log.info("-------------------------------");

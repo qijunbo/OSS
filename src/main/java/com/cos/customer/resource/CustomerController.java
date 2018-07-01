@@ -46,12 +46,12 @@ public class CustomerController {
 	 * @return charge point
 	 */
 	@RequestMapping(value = "/{id}", method = GET)
-	public @ResponseBody Customer get(@PathVariable long id) {
+	public @ResponseBody Customer get(@PathVariable String id) {
 		return repository.findOne(id);
 	}
 
 	@RequestMapping(value = "/{id}", method = DELETE)
-	public @ResponseBody String delete(@PathVariable long id) {
+	public @ResponseBody String delete(@PathVariable String id) {
 		repository.delete(id);
 		return null;
 	}
