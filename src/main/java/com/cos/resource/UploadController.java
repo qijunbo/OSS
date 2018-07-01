@@ -63,8 +63,8 @@ public class UploadController {
     }
 
 	@RequestMapping(value = "/{id}", method = DELETE)
-	public void delete(@PathVariable long id) {
-
+	public void delete(@PathVariable String id, @RequestHeader(name = "Authorization", required = false) String password) {
+		uploadService.setIllegal(id, false);
 	}
 
 }

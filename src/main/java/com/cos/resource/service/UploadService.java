@@ -12,4 +12,6 @@ public interface UploadService {
 
 	public String saveUrlImage(String tags, String url, String contentType) throws MalformedURLException, FileNotFoundException, IOException;
 
+	public void setIllegal(String id, boolean legal);
+
 }

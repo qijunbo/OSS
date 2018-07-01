@@ -61,7 +61,7 @@ public class UploadServiceImpl implements UploadService {
 			throws IOException, FileNotFoundException {
 		File targetFile = createFile(originName);
 		StreamUtils.copy(inputStream, new FileOutputStream(targetFile));
-		
+
 		String md5code = DigestUtils.md5DigestAsHex(new FileInputStream(targetFile));
 		Resource resource = resourceRepository.findByMd5code(md5code);
 		if (resource != null) {
@@ -91,6 +91,15 @@ public class UploadServiceImpl implements UploadService {
 			targetFile.getParentFile().mkdirs();
 		}
 		return targetFile;
+	}
+
+	@Override
+	public void setIllegal(String id, boolean legal) {
+		Resource resource = resourceRepository.findOne(id);
+		if (resource != null) {
+			resource.setLegal(legal);
+			resourceRepository.save(resource);
+		}
 	}
 
 }

@@ -39,14 +39,15 @@ public class DownloadServiceImpl implements DownloadService {
 		}
 		File file = new File(root + fileInfo.getPath());
 
-		if (file.exists()) {
+		// 存在并合法
+		if (file.exists() && fileInfo.isLegal()) {
 			HttpHeaders headers = new HttpHeaders();
 			headers.add("Content-Disposition", "attachment; filename=\"" + fileInfo.getName() + "\"");
 			ResponseEntity<InputStreamResource> responseEntity = new ResponseEntity<InputStreamResource>(
 					new InputStreamResource(new FileInputStream(file)), headers, HttpStatus.OK);
 			return responseEntity;
 		} else {
-			throw new FileNotFoundException("File is not found!" + file.getAbsolutePath());
+			throw new FileNotFoundException("File is not found or illegal!" + file.getAbsolutePath());
 		}
 
 	}
@@ -60,7 +61,8 @@ public class DownloadServiceImpl implements DownloadService {
 		}
 		File file = new File(root + fileInfo.getPath());
 
-		if (file.exists()) {
+		// 存在并合法
+		if (file.exists() && fileInfo.isLegal()) {
 			if (MediaType.ALL_VALUE.equals(response.getContentType()) || response.getContentType() == null) {
 				response.setContentType(fileInfo.getMimeType());
 			}
@@ -70,7 +72,7 @@ public class DownloadServiceImpl implements DownloadService {
 			// so, please set headers before this.
 			StreamUtils.copy(new FileInputStream(file), response.getOutputStream());
 		} else {
-			throw new FileNotFoundException("File is not found!" + file.getAbsolutePath());
+			throw new FileNotFoundException("File is not found or illegal!" + file.getAbsolutePath());
 		}
 
 	}
