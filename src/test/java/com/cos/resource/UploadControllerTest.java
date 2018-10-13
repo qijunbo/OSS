@@ -7,7 +7,12 @@ import org.springframework.core.io.FileSystemResource;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
-
+/**
+ * 
+ * @see https://blog.csdn.net/mhmyqn/article/details/26395743
+ * @author qijunbo
+ *
+ */
 public class UploadControllerTest {
 	
 	@Test
