@@ -50,7 +50,7 @@ public class UploadController {
 		// 获取multiRequest 中所有的文件名
 		Iterator<String> names = request.getFileNames();
 		while (names.hasNext()) {
-			files.add(uploadService.save(tags, request.getFile(names.next())));
+			files.add(uploadService.save(tags, request.getFile(names.next()), null));
 		}
 		return files;
 	}
