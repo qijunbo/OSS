@@ -48,7 +48,8 @@ dependencies {
     runtime("mysql:mysql-connector-java")
     runtime("com.h2database:h2")
     
-    
+	compile("org.apache.commons:commons-lang3:3.8.1")
+	
     //-- Swagger2-config    
     compile("io.springfox:springfox-swagger2:2.7.0")
     compile("io.springfox:springfox-swagger-ui:2.7.0")

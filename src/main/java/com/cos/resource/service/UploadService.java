@@ -8,7 +8,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 public interface UploadService {
 
-	public String save(String tags, MultipartFile file) throws FileNotFoundException, IOException;
+	public String save(String tags, MultipartFile file, String md5) throws FileNotFoundException, IOException;
 
 	public String saveUrlImage(String tags, String url, String contentType) throws MalformedURLException, FileNotFoundException, IOException;
 

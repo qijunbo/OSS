@@ -35,9 +35,10 @@ public class UploadController {
 	@RequestMapping(method = POST)
 	@ApiOperation(value = "add an resource to storage", httpMethod = "POST", response = String.class, notes = "will return the uuid of the resource.")
 	public  String add(@RequestParam String tags, @RequestParam MultipartFile file,
+			@RequestParam(required = false) String md5,
 			@RequestHeader(name = "Authorization", required = false) String password)
 			throws FileNotFoundException, IOException {
-		return uploadService.save(tags, file);
+		return uploadService.save(tags, file , md5);
 	}
 
 	@RequestMapping(value = "/multi", method = RequestMethod.POST)

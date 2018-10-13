@@ -12,6 +12,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.UUID;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -21,6 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.cos.resource.repository.Resource;
 import com.cos.resource.repository.ResourceRepository;
+import com.cos.softlink.repository.SoftLink;
 
 @Service
 public class UploadServiceImpl implements UploadService {
@@ -38,12 +40,12 @@ public class UploadServiceImpl implements UploadService {
 	private ResourceRepository resourceRepository;
 
 	@Override
-	public String save(String tags, MultipartFile file) throws FileNotFoundException, IOException {
+	public String save(String tags, MultipartFile file, String md5) throws FileNotFoundException, IOException {
 		// save file to disk
 		String originName = file.getOriginalFilename();
 		String contentType = file.getContentType();
 		InputStream inputStream = file.getInputStream();
-		return saveResource(tags, originName, inputStream, contentType);
+		return saveResource(tags, originName, inputStream, contentType, md5);
 
 	}
 
@@ -54,15 +56,24 @@ public class UploadServiceImpl implements UploadService {
 		int index = url.lastIndexOf('/');
 		String originName = index > 0 ? url.substring(index) : url;
 		InputStream inputStream = new URL(url).openStream();
-		return saveResource(tags, originName, inputStream, contentType);
+		return saveResource(tags, originName, inputStream, contentType, null);
 	}
 
-	private String saveResource(String tags, String originName, InputStream inputStream, String contentType)
-			throws IOException, FileNotFoundException {
+	private String saveResource(String tags, String originName, InputStream inputStream, String contentType,
+			String md5code) throws IOException, FileNotFoundException {
+
+		// in case of good shoot, return very quickly.
+		if (StringUtils.isNotBlank(md5code) && md5code.length() > 5) {
+			Resource resource = resourceRepository.findByMd5code(md5code);
+			if (resource != null) {
+				return resource.getId();
+			}
+		}
+		
 		File targetFile = createFile(originName);
 		StreamUtils.copy(inputStream, new FileOutputStream(targetFile));
 
-		String md5code = DigestUtils.md5DigestAsHex(new FileInputStream(targetFile));
+		md5code = DigestUtils.md5DigestAsHex(new FileInputStream(targetFile));
 		Resource resource = resourceRepository.findByMd5code(md5code);
 		if (resource != null) {
 			// file exists.
@@ -75,7 +86,10 @@ public class UploadServiceImpl implements UploadService {
 			resource.setPath(targetFile.getAbsolutePath().replace(root, ""));
 			return resourceRepository.save(resource).getId();
 		}
+
 	}
+	
+	
 
 	private File createFile(String originName) {
 		int index = originName.lastIndexOf('.');
