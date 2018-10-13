@@ -5,7 +5,6 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,7 +52,7 @@ public class DownloadServiceImpl implements DownloadService {
 	}
 
 	@Override
-	public void writeToResponse(String id, HttpServletRequest request, HttpServletResponse response)
+	public void writeToResponse(String id,  HttpServletResponse response)
 			throws IOException {
 		Resource fileInfo = resourceRepository.findOne(id);
 		if (fileInfo == null) {
@@ -67,8 +66,7 @@ public class DownloadServiceImpl implements DownloadService {
 				response.setContentType(fileInfo.getMimeType());
 			}
 			response.setHeader("Content-Disposition", "filename=\"" + fileInfo.getName() + "\"");
-			// StreamUtils always close the input and output stream after finish
-			// the job.
+			// StreamUtils always close the input and output stream after finish the job.
 			// so, please set headers before this.
 			StreamUtils.copy(new FileInputStream(file), response.getOutputStream());
 		} else {

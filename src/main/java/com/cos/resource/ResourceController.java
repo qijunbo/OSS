@@ -63,7 +63,7 @@ public class ResourceController {
 	public void getImage(@PathVariable String id, HttpServletRequest request, HttpServletResponse response)
 			throws IOException {
 		response.setContentType(MediaType.IMAGE_JPEG_VALUE);
-		downloadService.writeToResponse(id, request, response);
+		downloadService.writeToResponse(id, response);
 	}
 
 }

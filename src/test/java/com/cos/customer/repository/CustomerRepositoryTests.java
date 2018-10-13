@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.example.jpa;
+package com.cos.customer.repository;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -26,9 +26,6 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.test.context.junit4.SpringRunner;
-
-import com.cos.customer.repository.Customer;
-import com.cos.customer.repository.CustomerRepository;
 
 @RunWith(SpringRunner.class)
 @DataJpaTest
