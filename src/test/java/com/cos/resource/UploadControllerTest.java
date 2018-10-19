@@ -17,8 +17,8 @@ public class UploadControllerTest {
 	
 	@Test
 	public void testUpload() throws Exception {
-		String url = "http://127.0.0.1:80/api/v1/resource";
-		String filePath = "D:\\女儿情.jpg";
+		String url = "http://192.168.1.30:8888/central/api/v1/resource?tags=test";
+		String filePath = "c:\\workspace\\Activiti-master.zip";
  
 		RestTemplate rest = new RestTemplate();
 		FileSystemResource resource = new FileSystemResource(new File(filePath));

@@ -13,6 +13,7 @@ import java.util.Date;
 import java.util.UUID;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.SystemUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -33,11 +34,19 @@ public class UploadServiceImpl implements UploadService {
 
 	public static final SimpleDateFormat DefaultDateFormat = new SimpleDateFormat(STANDARD_DATE_PATTERN);
 
-	@Value("${storage.root:/home/ftpuser/}")
-	private String root;
+	@Value("${storage.root.linux:/home/ftpuser/}")
+	private String rootlinux;
 
+	@Value("${storage.root.windows:d:/download/}")
+	private String rootwindows;
+	
 	@Autowired
 	private ResourceRepository resourceRepository;
+	
+	
+	private String getRoot(){
+		return SystemUtils.IS_OS_WINDOWS?rootwindows:rootlinux;	  
+	}
 
 	@Override
 	public String save(String tags, MultipartFile file, String md5) throws FileNotFoundException, IOException {
@@ -83,7 +92,7 @@ public class UploadServiceImpl implements UploadService {
 			// save information to database
 			resource = new Resource(originName, tags, contentType);
 			resource.setMd5code(md5code);
-			resource.setPath(targetFile.getAbsolutePath().replace(root, ""));
+			resource.setPath(targetFile.getAbsolutePath().replace(getRoot(), ""));
 			return resourceRepository.save(resource).getId();
 		}
 
@@ -97,7 +106,7 @@ public class UploadServiceImpl implements UploadService {
 		// 通过扩展名获取文件类型
 		String extname = index > 0 ? originName.substring(index + 1).toLowerCase() : OTHER_TYPE;
 		// 生成保存路径， 如果上传文件无扩展名，就不要扩展名
-		String fullName = root + extname + File.separator + DefaultDateFormat.format(new Date()) + File.separator
+		String fullName = getRoot() + extname + File.separator + DefaultDateFormat.format(new Date()) + File.separator
 				+ UUID.randomUUID().toString() + (OTHER_TYPE.equals(extname) ? "" : "." + extname);
 		File targetFile = new File(fullName);
 
