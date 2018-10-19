@@ -36,7 +36,7 @@ public class Application extends SpringBootServletInitializer implements Command
 
 		// save a couple of customers
 		Date today = new Date();
-		
+		repository.deleteAll();
 		repository.save(new Customer("Jack Bauer", "Jack@builder.com", today));
 		repository.save(new Customer("Chloe O'Brian", "Chloe@builder.com", today));
 		repository.save(new Customer("Kim Bauer", "Kim@builder.com", today));
