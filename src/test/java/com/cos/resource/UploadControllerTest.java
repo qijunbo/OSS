@@ -18,7 +18,7 @@ public class UploadControllerTest {
 	@Test
 	public void testUpload() throws Exception {
 		String url = "http://192.168.1.30:8888/central/api/v1/resource?tags=test";
-		String filePath = "c:\\workspace\\Activiti-master.zip";
+		String filePath = "C:/Users/qijunbo/Pictures/ELN/1.png";
  
 		RestTemplate rest = new RestTemplate();
 		FileSystemResource resource = new FileSystemResource(new File(filePath));
@@ -26,8 +26,10 @@ public class UploadControllerTest {
 		param.add("file", resource);
 		param.add("tags", "简谱");
  
-		String string = rest.postForObject(url, param, String.class);
-		System.out.println(string);
+		String uuid = rest.postForObject(url, param, String.class);
+		System.out.println(uuid);
+		
+		
 	}
  
 

@@ -60,7 +60,7 @@ public class DownloadServiceImpl implements DownloadService {
 		}
 		File file = new File(root + fileInfo.getPath());
 
-		// 存在并合法
+		// "存在" 并且  "合法"
 		if (file.exists() && fileInfo.isLegal()) {
 			if (MediaType.ALL_VALUE.equals(response.getContentType()) || response.getContentType() == null) {
 				response.setContentType(fileInfo.getMimeType());

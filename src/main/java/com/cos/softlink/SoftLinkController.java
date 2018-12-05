@@ -1,6 +1,7 @@
 package com.cos.softlink;
 
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
+import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 import java.io.FileNotFoundException;
 
@@ -33,4 +34,11 @@ public class SoftLinkController {
 		return linkRepository.findAll(new PageRequest(0, 10));
 	}
 
+	@RequestMapping(method = POST)
+	public String create(@RequestHeader(name = "user", required = false) String user, Integer days)
+			throws FileNotFoundException {
+		return "";
+	}
+	
+	
 }
