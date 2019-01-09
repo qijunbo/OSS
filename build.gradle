@@ -21,7 +21,7 @@ springBoot {
 
 
 jar {
-    baseName = 'swaggerDemo'
+    baseName = 'oss'
 //    version =  '0.1.0'
 }
  
