@@ -6,6 +6,7 @@ import static org.springframework.web.bind.annotation.RequestMethod.POST;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -59,8 +60,9 @@ public class UploadController {
     @RequestMapping(value = "/offline", method = RequestMethod.POST)
     @ApiOperation(value = "add online resources to storage offline", httpMethod = "POST", response = String.class, notes = "will return a list contains the uuids of the resources.")
     public String uploadOffline(@RequestParam String tags, @RequestParam String url , 
-    		@RequestParam(required=false, defaultValue=MediaType.ALL_VALUE) String contentType) throws MalformedURLException, FileNotFoundException, IOException   {
-        return uploadService.saveUrlImage(tags, url, contentType);
+    		@RequestParam(required=false, defaultValue=MediaType.ALL_VALUE) String contentType,
+    		@RequestParam(required=false ) String referer ) throws MalformedURLException, FileNotFoundException, IOException, RuntimeException, URISyntaxException   {
+        return uploadService.saveUrlToFile(tags, url, contentType, referer);
     }
 
 	@RequestMapping(value = "/{id}", method = DELETE)

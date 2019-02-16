@@ -6,8 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.MalformedURLException;
-import java.net.URL;
+import java.net.URISyntaxException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.UUID;
@@ -18,12 +17,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
-import org.springframework.util.StreamUtils;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.cos.resource.repository.Resource;
 import com.cos.resource.repository.ResourceRepository;
-import com.cos.softlink.repository.SoftLink;
 
 @Service
 public class UploadServiceImpl implements UploadService {
@@ -39,13 +37,16 @@ public class UploadServiceImpl implements UploadService {
 
 	@Value("${storage.root.windows:d:/download/}")
 	private String rootwindows;
-	
+
 	@Autowired
 	private ResourceRepository resourceRepository;
-	
-	
-	private String getRoot(){
-		return SystemUtils.IS_OS_WINDOWS?rootwindows:rootlinux;	  
+
+	private String getRoot() {
+		String path = SystemUtils.IS_OS_WINDOWS ? rootwindows : rootlinux;
+		if (!path.endsWith(File.separator)) {
+			path = path + File.separator;
+		}
+		return path;
 	}
 
 	@Override
@@ -59,13 +60,17 @@ public class UploadServiceImpl implements UploadService {
 	}
 
 	@Override
-	public String saveUrlImage(String tags, String url, String contentType)
-			throws MalformedURLException, FileNotFoundException, IOException {
+	public String saveUrlToFile(String tags, String url, String contentType, String referer)
+			throws IOException, RuntimeException, URISyntaxException{
 
 		int index = url.lastIndexOf('/');
 		String originName = index > 0 ? url.substring(index) : url;
-		InputStream inputStream = new URL(url).openStream();
-		return saveResource(tags, originName, inputStream, contentType, null);
+		File targetFile = createFile(originName);
+		DownloadFileUtil.downloadImage(url, targetFile, referer);
+		Resource resource = new Resource(originName, tags, contentType);
+		resource.setMd5code("");
+		resource.setPath(targetFile.getAbsolutePath().replace(getRoot(), ""));
+		return resourceRepository.save(resource).getId();
 	}
 
 	private String saveResource(String tags, String originName, InputStream inputStream, String contentType,
@@ -78,9 +83,9 @@ public class UploadServiceImpl implements UploadService {
 				return resource.getId();
 			}
 		}
-		
+
 		File targetFile = createFile(originName);
-		StreamUtils.copy(inputStream, new FileOutputStream(targetFile));
+		FileCopyUtils.copy(inputStream, new FileOutputStream(targetFile));
 
 		md5code = DigestUtils.md5DigestAsHex(new FileInputStream(targetFile));
 		Resource resource = resourceRepository.findByMd5code(md5code);
@@ -97,8 +102,6 @@ public class UploadServiceImpl implements UploadService {
 		}
 
 	}
-	
-	
 
 	private File createFile(String originName) {
 		int index = originName.lastIndexOf('.');

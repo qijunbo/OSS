@@ -1,7 +1,7 @@
 spring:
   datasource:
-    url: jdbc:mysql://192.168.1.30:3307/test?useSSL=false
-    username: root
+    url: jdbc:mysql://47.100.255.47:3306/customer?useSSL=false
+    username: customer
     password: sunway123#
     driver-class-name: com.mysql.jdbc.Driver 
   jpa:  

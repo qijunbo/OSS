@@ -1,1 +1,2 @@
-gradlew cleanEclipse eclipse
+call gradlew cleanEclipse eclipse
+pause
