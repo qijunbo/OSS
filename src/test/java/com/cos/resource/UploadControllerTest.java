@@ -15,9 +15,10 @@ import org.springframework.web.client.RestTemplate;
  */
 public class UploadControllerTest {
 	
-	@Test
+	//@Test
 	public void testUpload() throws Exception {
-		String url = "http://192.168.1.30:8888/central/api/v1/resource?tags=test";
+		
+		String url = "http://localhost:1001/api/v1/resource?tags=test";
 		String filePath = "C:/Users/qijunbo/Pictures/ELN/1.png";
  
 		RestTemplate rest = new RestTemplate();

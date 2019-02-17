@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.cos.customer.repository;
+package com.oss.customer.repository;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
