@@ -1,4 +1,4 @@
-package com.cos.resource.service;
+package com.oss.resource.service;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -17,8 +17,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StreamUtils;
 
-import com.cos.resource.repository.Resource;
-import com.cos.resource.repository.ResourceRepository;
+import com.oss.resource.repository.Resource;
+import com.oss.resource.repository.ResourceRepository;
 
 @Service
 public class DownloadServiceImpl implements DownloadService {

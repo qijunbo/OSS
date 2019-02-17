@@ -1,4 +1,4 @@
-package com.cos;
+package com.oss;
 
 import java.io.IOException;
 

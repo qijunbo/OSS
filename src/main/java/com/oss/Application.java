@@ -1,4 +1,4 @@
-package com.cos;
+package com.oss;
 
 import java.util.Date;
 
@@ -11,8 +11,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.support.SpringBootServletInitializer;
 
-import com.cos.customer.repository.Customer;
-import com.cos.customer.repository.CustomerRepository;
+import com.oss.customer.repository.Customer;
+import com.oss.customer.repository.CustomerRepository;
 
 @SpringBootApplication
 public class Application extends SpringBootServletInitializer implements CommandLineRunner {

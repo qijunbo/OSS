@@ -1,4 +1,4 @@
-package com.cos.resource;
+package com.oss.resource;
 
 import static org.springframework.web.bind.annotation.RequestMethod.DELETE;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
-import com.cos.resource.service.UploadService;
+import com.oss.resource.service.UploadService;
 
 import io.swagger.annotations.ApiOperation;
 
@@ -30,39 +30,45 @@ import io.swagger.annotations.ApiOperation;
 @RequestMapping("/api/v1/resource")
 public class UploadController {
 
+	private static String GET_API_LINK = "/api/v1/resource/";
+	
 	@Autowired
 	private UploadService uploadService;
 
 	@RequestMapping(method = POST)
 	@ApiOperation(value = "add an resource to storage", httpMethod = "POST", response = String.class, notes = "will return the uuid of the resource.")
-	public  String add(@RequestParam String tags, @RequestParam MultipartFile file,
+	public  ResourceLink add(@RequestParam String tags, @RequestParam MultipartFile file,
 			@RequestParam(required = false) String md5,
 			@RequestHeader(name = "Authorization", required = false) String password)
 			throws FileNotFoundException, IOException {
-		return uploadService.save(tags, file , md5);
+			
+		String uuid = uploadService.save(tags, file , md5);
+		return new ResourceLink(uuid, GET_API_LINK + uuid);
 	}
 
 	@RequestMapping(value = "/multi", method = RequestMethod.POST)
 	@ApiOperation(value = "add multipul resources to storage", httpMethod = "POST", response = String.class, notes = "will return a list contains the uuids of the resources.")
-	public List<String> addMany(@RequestParam String tags, MultipartHttpServletRequest request,
+	public List<ResourceLink> addMany(@RequestParam String tags, MultipartHttpServletRequest request,
 			@RequestHeader(name = "Authorization", required = false) String password)
 			throws FileNotFoundException, IOException {
-		final List<String> files = new ArrayList<String>();
+		final List<ResourceLink> files = new ArrayList<ResourceLink>();
 		// 获取multiRequest 中所有的文件名
 		Iterator<String> names = request.getFileNames();
 		while (names.hasNext()) {
-			files.add(uploadService.save(tags, request.getFile(names.next()), null));
+			String uuid = uploadService.save(tags, request.getFile(names.next()), null);
+			files.add(new ResourceLink(uuid, GET_API_LINK + uuid));
 		}
 		return files;
 	}
 	
 	
     @RequestMapping(value = "/offline", method = RequestMethod.POST)
-    @ApiOperation(value = "add online resources to storage offline", httpMethod = "POST", response = String.class, notes = "will return a list contains the uuids of the resources.")
-    public String uploadOffline(@RequestParam String tags, @RequestParam String url , 
+    @ApiOperation(value = "add online resources to storage offline", httpMethod = "POST", response = String.class, notes = "从指定的URL下载网络资源到本地. ")
+    public ResourceLink uploadOffline(@RequestParam String tags, @RequestParam String url , 
     		@RequestParam(required=false, defaultValue=MediaType.ALL_VALUE) String contentType,
     		@RequestParam(required=false ) String referer ) throws MalformedURLException, FileNotFoundException, IOException, RuntimeException, URISyntaxException   {
-        return uploadService.saveUrlToFile(tags, url, contentType, referer);
+        String uuid = uploadService.saveUrlToFile(tags, url, contentType, referer);
+        return new ResourceLink(uuid, GET_API_LINK + uuid);
     }
 
 	@RequestMapping(value = "/{id}", method = DELETE)

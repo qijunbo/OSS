@@ -1,5 +1,5 @@
 // tag::sample[]
-package com.cos.softlink.repository;
+package com.oss.softlink.repository;
 
 import java.util.Date;
 

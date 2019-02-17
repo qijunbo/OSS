@@ -1,4 +1,4 @@
-package com.cos.customer.repository;
+package com.oss.customer.repository;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

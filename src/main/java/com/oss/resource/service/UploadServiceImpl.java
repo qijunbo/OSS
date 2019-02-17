@@ -1,4 +1,4 @@
-package com.cos.resource.service;
+package com.oss.resource.service;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -20,8 +20,8 @@ import org.springframework.util.DigestUtils;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.cos.resource.repository.Resource;
-import com.cos.resource.repository.ResourceRepository;
+import com.oss.resource.repository.Resource;
+import com.oss.resource.repository.ResourceRepository;
 
 @Service
 public class UploadServiceImpl implements UploadService {

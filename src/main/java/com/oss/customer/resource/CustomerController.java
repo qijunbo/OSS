@@ -1,4 +1,4 @@
-package com.cos.customer.resource;
+package com.oss.customer.resource;
 
 import static org.springframework.web.bind.annotation.RequestMethod.DELETE;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.cos.customer.repository.Customer;
-import com.cos.customer.repository.CustomerRepository;
+import com.oss.customer.repository.Customer;
+import com.oss.customer.repository.CustomerRepository;
 
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;

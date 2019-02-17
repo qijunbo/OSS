@@ -1,4 +1,4 @@
-package com.cos.resource.repository;
+package com.oss.resource.repository;
 
 import java.util.List;
 

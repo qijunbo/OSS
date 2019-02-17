@@ -1,4 +1,4 @@
-package com.cos.softlink;
+package com.oss.softlink;
 
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.cos.softlink.repository.SoftLink;
-import com.cos.softlink.repository.SoftLinkRepository;
+import com.oss.softlink.repository.SoftLink;
+import com.oss.softlink.repository.SoftLinkRepository;
 
 @RestController
 @RequestMapping("/api/v1/softlink")

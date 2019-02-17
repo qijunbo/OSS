@@ -1,4 +1,4 @@
-package com.cos.resource;
+package com.oss.resource;
 
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
@@ -17,9 +17,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.cos.resource.repository.Resource;
-import com.cos.resource.repository.ResourceRepository;
-import com.cos.resource.service.DownloadService;
+import com.oss.resource.repository.Resource;
+import com.oss.resource.repository.ResourceRepository;
+import com.oss.resource.service.DownloadService;
 
 @Controller
 @RequestMapping("/api/v1/resource")

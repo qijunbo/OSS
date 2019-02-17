@@ -1,5 +1,5 @@
 // tag::sample[]
-package com.cos.customer.repository;
+package com.oss.customer.repository;
 
 import java.util.Date;
 

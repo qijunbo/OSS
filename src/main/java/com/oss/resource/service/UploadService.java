@@ -1,4 +1,4 @@
-package com.cos.resource.service;
+package com.oss.resource.service;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
