@@ -1,7 +1,9 @@
-server:    
-    port: 1001
-    session:
-        timeout: 1800
+server:
+  port: 1001
+  session:
+    timeout: 1800
+  context-path: /oss
+        
 spring:
   profiles:
     active: prod  # prod  and dev;
