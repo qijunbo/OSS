@@ -15,7 +15,7 @@ apply plugin: 'org.springframework.boot'
 
 
 springBoot {
-    mainClass = 'com.cos.Application'
+    mainClass = 'com.oss.Application'
     executable = true
 }
 
