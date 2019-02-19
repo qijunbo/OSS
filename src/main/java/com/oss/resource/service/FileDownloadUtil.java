@@ -19,15 +19,13 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
 import org.springframework.util.FileCopyUtils;
 
-public class DownloadFileUtil {
-
+public class FileDownloadUtil {
 	public static void downloadImage(String uri, File target) throws FileNotFoundException, IOException {
 
 		URL url = new URL(uri);
 		FileCopyUtils.copy(url.openStream(), new FileOutputStream(target));
 
 	}
-
 
 	public static void downloadImage(String url, File target, String referer)
 			throws UnsupportedOperationException, FileNotFoundException, IOException, URISyntaxException {

@@ -8,7 +8,6 @@ import java.io.IOException;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -17,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StreamUtils;
 
+import com.oss.config.PathConfig;
 import com.oss.resource.repository.Resource;
 import com.oss.resource.repository.ResourceRepository;
 
@@ -25,10 +25,10 @@ public class DownloadServiceImpl implements DownloadService {
 
 	@Autowired
 	private ResourceRepository resourceRepository;
-
-	@Value("${storage.root:/home/ftpuser/}")
-	private String root;
-
+	
+	@Autowired
+	private PathConfig config;
+ 
 	@Override
 	public ResponseEntity<InputStreamResource> getFileResource(String id) throws FileNotFoundException {
 
@@ -36,7 +36,7 @@ public class DownloadServiceImpl implements DownloadService {
 		if (fileInfo == null) {
 			throw new FileNotFoundException("File is not found! ");
 		}
-		File file = new File(root + fileInfo.getPath());
+		File file = new File(config.getRoot() + fileInfo.getPath());
 
 		// 存在并合法
 		if (file.exists() && fileInfo.isLegal()) {
@@ -58,7 +58,7 @@ public class DownloadServiceImpl implements DownloadService {
 		if (fileInfo == null) {
 			throw new FileNotFoundException("File is not found! ");
 		}
-		File file = new File(root + fileInfo.getPath());
+		File file = new File(config.getRoot() + fileInfo.getPath());
 
 		// "存在" 并且  "合法"
 		if (file.exists() && fileInfo.isLegal()) {

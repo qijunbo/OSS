@@ -15,5 +15,5 @@ spring:
 storage:
   root:
     linux: /download/
-    windows: d:/download/
+    windows: d:\download\
      

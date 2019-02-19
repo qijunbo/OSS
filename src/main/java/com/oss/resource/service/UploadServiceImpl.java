@@ -12,14 +12,13 @@ import java.util.Date;
 import java.util.UUID;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.SystemUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.oss.config.PathConfig;
 import com.oss.resource.repository.Resource;
 import com.oss.resource.repository.ResourceRepository;
 
@@ -32,23 +31,12 @@ public class UploadServiceImpl implements UploadService {
 
 	public static final SimpleDateFormat DefaultDateFormat = new SimpleDateFormat(STANDARD_DATE_PATTERN);
 
-	@Value("${storage.root.linux:/home/ftpuser/}")
-	private String rootlinux;
-
-	@Value("${storage.root.windows:d:/download/}")
-	private String rootwindows;
-
 	@Autowired
 	private ResourceRepository resourceRepository;
-
-	private String getRoot() {
-		String path = SystemUtils.IS_OS_WINDOWS ? rootwindows : rootlinux;
-		if (!path.endsWith(File.separator)) {
-			path = path + File.separator;
-		}
-		return path;
-	}
-
+	
+	@Autowired
+	private PathConfig config;
+ 
 	@Override
 	public String save(String tags, MultipartFile file, String md5) throws FileNotFoundException, IOException {
 		// save file to disk
@@ -66,10 +54,10 @@ public class UploadServiceImpl implements UploadService {
 		int index = url.lastIndexOf('/');
 		String originName = index > 0 ? url.substring(index) : url;
 		File targetFile = createFile(originName);
-		DownloadFileUtil.downloadImage(url, targetFile, referer);
+		FileDownloadUtil.downloadImage(url, targetFile, referer);
 		Resource resource = new Resource(originName, tags, contentType);
 		resource.setMd5code("");
-		resource.setPath(targetFile.getAbsolutePath().replace(getRoot(), ""));
+		resource.setPath(targetFile.getAbsolutePath().replace(config.getRoot(), ""));
 		return resourceRepository.save(resource).getId();
 	}
 
@@ -97,7 +85,7 @@ public class UploadServiceImpl implements UploadService {
 			// save information to database
 			resource = new Resource(originName, tags, contentType);
 			resource.setMd5code(md5code);
-			resource.setPath(targetFile.getAbsolutePath().replace(getRoot(), ""));
+			resource.setPath(targetFile.getAbsolutePath().replace(config.getRoot(), ""));
 			return resourceRepository.save(resource).getId();
 		}
 
@@ -109,7 +97,7 @@ public class UploadServiceImpl implements UploadService {
 		// 通过扩展名获取文件类型
 		String extname = index > 0 ? originName.substring(index + 1).toLowerCase() : OTHER_TYPE;
 		// 生成保存路径， 如果上传文件无扩展名，就不要扩展名
-		String fullName = getRoot() + extname + File.separator + DefaultDateFormat.format(new Date()) + File.separator
+		String fullName = config.getRoot() + extname + File.separator + DefaultDateFormat.format(new Date()) + File.separator
 				+ UUID.randomUUID().toString() + (OTHER_TYPE.equals(extname) ? "" : "." + extname);
 		File targetFile = new File(fullName);
 
