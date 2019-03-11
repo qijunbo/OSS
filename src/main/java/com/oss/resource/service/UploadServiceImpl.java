@@ -1,7 +1,6 @@
 package com.oss.resource.service;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -11,10 +10,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.UUID;
 
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.DigestUtils;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -56,39 +53,23 @@ public class UploadServiceImpl implements UploadService {
 		File targetFile = createFile(originName);
 		FileDownloadUtil.downloadImage(url, targetFile, referer);
 		Resource resource = new Resource(originName, tags, contentType);
-		resource.setMd5code("");
 		resource.setPath(targetFile.getAbsolutePath().replace(config.getRoot(), ""));
+		resource.setOriginName(originName);
 		return resourceRepository.save(resource).getId();
 	}
 
 	private String saveResource(String tags, String originName, InputStream inputStream, String contentType,
 			String md5code) throws IOException, FileNotFoundException {
 
-		// in case of good shoot, return very quickly.
-		if (StringUtils.isNotBlank(md5code) && md5code.length() > 5) {
-			Resource resource = resourceRepository.findByMd5code(md5code);
-			if (resource != null) {
-				return resource.getId();
-			}
-		}
-
 		File targetFile = createFile(originName);
 		FileCopyUtils.copy(inputStream, new FileOutputStream(targetFile));
-
-		md5code = DigestUtils.md5DigestAsHex(new FileInputStream(targetFile));
-		Resource resource = resourceRepository.findByMd5code(md5code);
-		if (resource != null) {
-			// file exists.
-			targetFile.delete();
-			return resource.getId();
-		} else {
-			// save information to database
-			resource = new Resource(originName, tags, contentType);
-			resource.setMd5code(md5code);
-			resource.setPath(targetFile.getAbsolutePath().replace(config.getRoot(), ""));
-			return resourceRepository.save(resource).getId();
-		}
-
+		Resource resource = new Resource(originName, tags, contentType);
+		resource.setPath(targetFile.getAbsolutePath().replace(config.getRoot(), ""));
+		resource.setOriginName(originName);
+		return resourceRepository.save(resource).getId();
+		
+		//md5code = DigestUtils.md5DigestAsHex(new FileInputStream(targetFile));
+		//Resource resource = resourceRepository.findByMd5code(md5code);
 	}
 
 	private File createFile(String originName) {
