@@ -32,7 +32,7 @@ import io.swagger.annotations.ApiOperation;
 @RequestMapping("/api/v1/resource")
 public class UploadController {
 
-	//private static String GET_API_LINK = "/api/v1/resource/";
+	private static String GET_API_LINK = "/api/v1/resource/";
 	
 	@Autowired
 	private UploadService uploadService;
@@ -65,7 +65,8 @@ public class UploadController {
 	}
 
 	private ResourceLink createResourceLink(HttpServletRequest request, String uuid) {
-		String uri =  request.getRequestURL().append('/').append(uuid).toString();
+		String uri =  request.getRequestURL().toString();
+		uri =  uri.substring(0,  uri.indexOf("/api")) + GET_API_LINK + uuid;
 		return	new ResourceLink(uuid, uri );
 	}
 	

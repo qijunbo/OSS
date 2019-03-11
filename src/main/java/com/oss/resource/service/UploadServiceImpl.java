@@ -5,7 +5,9 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 import java.net.URISyntaxException;
+import java.net.URLDecoder;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.UUID;
@@ -46,14 +48,24 @@ public class UploadServiceImpl implements UploadService {
 	@Override
 	public String saveUrlToFile(String tags, String url, String contentType, String referer)
 			throws IOException, RuntimeException, URISyntaxException{
-
-		int index = url.lastIndexOf('/');
-		String originName = index > 0 ? url.substring(index) : url;
+		String originName = getOriginName(url);
+		
 		File targetFile = createFile(originName);
 		FileDownloadUtil.downloadImage(url, targetFile, referer);
 		Resource resource = new Resource(originName, tags, contentType);
 		resource.setPath(targetFile.getAbsolutePath().replace(config.getRoot(), ""));
 		return resourceRepository.save(resource).getId();
+	}
+
+	private static String getOriginName(String url) throws UnsupportedEncodingException {
+		int index = url.lastIndexOf('/');
+		String originName = index > 0 ? url.substring(index) : url;
+		// 有的文件名是个爆长的完整的url的base64编码， 要先decode。
+		originName = URLDecoder.decode(originName, "utf-8");
+		if(originName.contains("/")) {
+			originName = originName.substring(originName.lastIndexOf('/')+1);
+		}
+		return originName;
 	}
 
 	private String saveResource(String tags, String originName, InputStream inputStream, String contentType,
