@@ -29,8 +29,6 @@ public class Resource {
 
 	private String md5code;
 
-	private String originName;
-
 	private boolean legal = true;
 
 	protected Resource() {
@@ -42,10 +40,6 @@ public class Resource {
 		this.mimeType = mimeType;
 		this.uploadTime = new Date();
 		this.legal = true;
-	}
-
-	public Resource(String name, String tags, String mimeType, String originName) {
-		this(originName, tags, mimeType);
 	}
 
 	public String getId() {
@@ -112,21 +106,11 @@ public class Resource {
 		this.legal = legal;
 	}
 
- 
-
-	public String getOriginName() {
-		return originName;
-	}
-
-	public void setOriginName(String originName) {
-		this.originName = originName;
-	}
-
 	@Override
 	public String toString() {
 		return "Resource [id=" + id + ", name=" + name + ", path=" + path + ", uploadTime=" + uploadTime + ", tags="
-				+ tags + ", mimeType=" + mimeType + ", md5code=" + md5code + ", originName=" + originName + ", legal="
-				+ legal + "]";
+				+ tags + ", mimeType=" + mimeType + ", md5code=" + md5code + ", legal=" + legal + "]";
 	}
+
 
 }

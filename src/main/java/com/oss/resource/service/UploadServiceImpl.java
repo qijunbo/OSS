@@ -41,7 +41,6 @@ public class UploadServiceImpl implements UploadService {
 		String contentType = file.getContentType();
 		InputStream inputStream = file.getInputStream();
 		return saveResource(tags, originName, inputStream, contentType, md5);
-
 	}
 
 	@Override
@@ -54,7 +53,6 @@ public class UploadServiceImpl implements UploadService {
 		FileDownloadUtil.downloadImage(url, targetFile, referer);
 		Resource resource = new Resource(originName, tags, contentType);
 		resource.setPath(targetFile.getAbsolutePath().replace(config.getRoot(), ""));
-		resource.setOriginName(originName);
 		return resourceRepository.save(resource).getId();
 	}
 
@@ -65,7 +63,6 @@ public class UploadServiceImpl implements UploadService {
 		FileCopyUtils.copy(inputStream, new FileOutputStream(targetFile));
 		Resource resource = new Resource(originName, tags, contentType);
 		resource.setPath(targetFile.getAbsolutePath().replace(config.getRoot(), ""));
-		resource.setOriginName(originName);
 		return resourceRepository.save(resource).getId();
 		
 		//md5code = DigestUtils.md5DigestAsHex(new FileInputStream(targetFile));
