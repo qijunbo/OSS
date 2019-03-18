@@ -5,6 +5,8 @@ server:
   context-path: /oss
         
 spring:
+  application:
+    name: oss
   profiles:
     active: prod  # prod  and dev;
   http:
