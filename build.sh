@@ -15,7 +15,6 @@ cp -vpf build/libs/${app}.jar  ${workfolder}/${app}/${app}.jar
 chmod 755 ${workfolder}/${app}/${app}.jar
 sudo ln -sf  ${workfolder}/${app}/${app}.jar  /etc/init.d/${app}
 sudo systemctl daemon-reload
-sudo chkconfig ${app} on
 sudo systemctl enable ${app}
 sudo systemctl start ${app}
 
