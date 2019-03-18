@@ -30,12 +30,12 @@ public class SwaggerConfig {
 	public ApiInfo apiInfo() {
 		//@formatter:off
 		  return new ApiInfoBuilder()
-	                .title("Customer RESTful APIs")
+	                .title("Object Storage Service (OSS) RESTful APIs")
 	                .description("Demo of Swagger RESTful APIs")
 	                .termsOfServiceUrl("http://www.biztree.com/doc/terms-of-service-agreement-D174")
-	                .contact(new Contact("qijunbo", "https://github.com/qijunbo", "junboqi@foxmail.com"))
+	                .contact(new Contact("qijunbo", "https://gitee.com/qijunbo", "junboqi@foxmail.com"))
 	                .license("GNU GENERAL PUBLIC LICENSE")
-	                .licenseUrl("https://github.com/qijunbo/swagger-demo/blob/master/LICENSE")
+	                .licenseUrl("https://gitee.com/qijunbo")
 	                .version("1.0")
 	                .build();
 		//@formatter:on
