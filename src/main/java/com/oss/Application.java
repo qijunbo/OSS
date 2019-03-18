@@ -10,10 +10,12 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.support.SpringBootServletInitializer;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
 import com.oss.customer.repository.Customer;
 import com.oss.customer.repository.CustomerRepository;
 
+@EnableDiscoveryClient
 @SpringBootApplication
 public class Application extends SpringBootServletInitializer implements CommandLineRunner {
 

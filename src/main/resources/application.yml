@@ -1,5 +1,5 @@
 server:
-  port: 1001
+  port: 8005
   session:
     timeout: 1800
   context-path: /oss
