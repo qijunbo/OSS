@@ -1,4 +1,4 @@
-package com.oss.softlink;
+package com.oss.softlink.controller;
 
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;

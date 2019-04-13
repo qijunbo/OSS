@@ -1,4 +1,4 @@
-package com.oss.customer.resource;
+package com.oss.customer.controller;
 
 import static org.springframework.web.bind.annotation.RequestMethod.DELETE;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;

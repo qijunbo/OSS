@@ -1,4 +1,4 @@
-package com.oss.resource;
+package com.oss.resource.controller;
 
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 

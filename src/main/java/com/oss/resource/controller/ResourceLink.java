@@ -1,4 +1,4 @@
-package com.oss.resource;
+package com.oss.resource.controller;
 
 public class ResourceLink {
 	
