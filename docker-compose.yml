@@ -6,7 +6,7 @@ services:
     container_name: oss
     volumes:
       - ./app-log:/app-log
-      - /oss/data:/data
+      - /home/oss/data:/data
     ports:
       - "10001:8080"
     networks:

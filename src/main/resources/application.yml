@@ -18,6 +18,6 @@ spring:
       max-request-size: 500MB
 storage:
   root:
-    linux: /download/
+    linux: /home/oss/data
     windows: d:\download\
      
