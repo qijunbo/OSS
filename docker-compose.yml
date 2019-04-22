@@ -8,17 +8,17 @@ services:
       - ./app-log:/app-log
       - /oss/data:/data
     ports:
-      - "1001:8080"
+      - "10001:8080"
     networks:
       - webnet
     restart: always
     environment:
       CONTEXTPATH: oss
-      APP_DB_HOST: 47.100.255.47
+      APP_DB_HOST: 172.31.221.150
       APP_DB_PORT: 3306
       APP_DB_USER: root
-      APP_DB_PASSWORD: deeplove
-      APP_DATABASE: customer
+      APP_DB_PASSWORD: sunway123###
+      APP_DATABASE: oss
 
 networks:
   webnet:
