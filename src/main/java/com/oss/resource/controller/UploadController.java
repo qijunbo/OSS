@@ -43,7 +43,7 @@ public class UploadController {
 
 	@RequestMapping(method = POST)
 	@ApiOperation(value = "add an resource to storage", httpMethod = "POST", response = String.class, notes = "will return the uuid of the resource.")
-	public ResourceLink add(@RequestParam String tags, @RequestParam MultipartFile file,
+	public ResourceLink add(@RequestParam(required=false, defaultValue="none") String tags, @RequestParam MultipartFile file,
 			// @RequestParam(required = false) String md5,
 			@RequestHeader(name = "Authorization") String password, HttpServletRequest request)
 			throws FileNotFoundException, IOException {
@@ -59,7 +59,7 @@ public class UploadController {
 
 	@RequestMapping(value = "/multi", method = RequestMethod.POST)
 	@ApiOperation(value = "add multipul resources to storage", httpMethod = "POST", response = String.class, notes = "will return a list contains the uuids of the resources.")
-	public List<ResourceLink> addMany(@RequestParam String tags, MultipartHttpServletRequest request,
+	public List<ResourceLink> addMany(@RequestParam(required=false, defaultValue="none") String tags,  MultipartHttpServletRequest request,
 			@RequestHeader(name = "Authorization") String password)
 			throws FileNotFoundException, IOException {
 
